@@ -5,9 +5,9 @@ spring:
     username: developer
     password: 19781107
   jpa:
+    spring:
+      jpa:
+        open-in-view: false
     hibernate:
       ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
       show-sql: false

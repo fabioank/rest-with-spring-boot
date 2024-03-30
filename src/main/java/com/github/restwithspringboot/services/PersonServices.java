@@ -1,54 +1,58 @@
 package com.github.restwithspringboot.services;
 
+import com.github.restwithspringboot.dtos.PersonDTO;
 import com.github.restwithspringboot.exceptions.ResourceNotFoundException;
+import com.github.restwithspringboot.mapper.PersonMapper;
 import com.github.restwithspringboot.model.Person;
 import com.github.restwithspringboot.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Service
 public class PersonServices {
 
-    private Logger logger = Logger.getLogger(PersonServices.class.getName());
-
     @Autowired
-    PersonRepository repository;
+    private PersonRepository repository;
 
-    public List<Person> findAll(){
-
-        return repository.findAll();
+    public List<PersonDTO> findAll() {
+        List<Person> people = repository.findAll();
+        return people.stream()
+                .map(PersonMapper::toDTO)
+                .collect(Collectors.toList());
     }
-    public Person findById(Long id){
 
-        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
-
+    public PersonDTO findById(Long id) {
+        Person person = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
+        return PersonMapper.toDTO(person);
     }
-    public Person create(Person person){
-        return repository.save(person);
+
+    public PersonDTO create (PersonDTO personDTO) {
+        Person person = PersonMapper.toEntity(personDTO);
+        Person savedPerson = repository.save(person);
+        return PersonMapper.toDTO(savedPerson);
     }
-    public Person update(Person person){
 
-        Person entity = repository.findById(person.getId()).orElseThrow(() ->
-                new ResourceNotFoundException("No records found for this ID"));
+    public PersonDTO update (PersonDTO personDTO){
+        Person person = repository.findById(personDTO.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
+        person.setFirstName(personDTO.getFirstName());
+        person.setLastName(personDTO.getLastName());
+        person.setAddress(personDTO.getAddress());
+        person.setGender(personDTO.getGender());
 
-        entity.setFirstName(person.getFirstName());
-        entity.setLastName(person.getLastName());
-        entity.setAddress(person.getAddress());
-        entity.setGender(person.getGender());
-
-        return repository.save(entity);
-
+        Person personUpdated = repository.save(person);
+        return PersonMapper.toDTO(personUpdated);
     }
-    public void delete(Long id){
 
-        Person entity = repository.findById(id).orElseThrow(() ->
-                new ResourceNotFoundException("No records found for this ID"));
 
-        repository.delete(entity);
+
+    public void delete(Long id) {
+        Person person = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
+        repository.delete(person);
     }
 }
