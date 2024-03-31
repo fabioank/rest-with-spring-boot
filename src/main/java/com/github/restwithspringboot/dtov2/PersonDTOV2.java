@@ -1,8 +1,9 @@
-package com.github.restwithspringboot.dtos;
+package com.github.restwithspringboot.dtov2;
 
 import java.io.Serializable;
+import java.util.Date;
 
-public class PersonDTO implements Serializable {
+public class PersonDTOV2 implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -11,15 +12,17 @@ public class PersonDTO implements Serializable {
     private String lastName;
     private String address;
     private String gender;
+    private Date birthDate;
 
-    public PersonDTO(){}
+    public PersonDTOV2(){}
 
-    public PersonDTO(Long id, String firstName, String lastName, String address, String gender) {
+    public PersonDTOV2(Long id, String firstName, String lastName, String address, String gender, Date birthDate) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.gender = gender;
+        this.birthDate = birthDate;
     }
 
     public Long getId() {
@@ -60,5 +63,13 @@ public class PersonDTO implements Serializable {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 }

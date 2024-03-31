@@ -27,6 +27,8 @@ public class Person implements Serializable {
     @Column(nullable = false, length = 80)
     private String gender;
 
+    public Person(){}
+
     public Person(Long id, String firstName, String lastName, String address, String gender) {
         this.id = id;
         this.firstName = firstName;
@@ -35,7 +37,7 @@ public class Person implements Serializable {
         this.gender = gender;
     }
 
-    public Person(){}
+
 
     public Long getId() {
         return id;

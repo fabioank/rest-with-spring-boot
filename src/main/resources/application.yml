@@ -2,8 +2,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/rest_with_spring_boot?useTimezone=true&serverTimezone=UTC
-    username: developer
-    password: 19781107
+    username: root
+    password: 99122210
   jpa:
     spring:
       jpa:

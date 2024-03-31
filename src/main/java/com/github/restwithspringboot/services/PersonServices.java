@@ -1,8 +1,10 @@
 package com.github.restwithspringboot.services;
 
-import com.github.restwithspringboot.dtos.PersonDTO;
+import com.github.restwithspringboot.dto.PersonDTO;
+import com.github.restwithspringboot.dtov2.PersonDTOV2;
 import com.github.restwithspringboot.exceptions.ResourceNotFoundException;
 import com.github.restwithspringboot.mapper.PersonMapper;
+import com.github.restwithspringboot.mapper.PersonMapperV2;
 import com.github.restwithspringboot.model.Person;
 import com.github.restwithspringboot.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,11 @@ public class PersonServices {
         Person savedPerson = repository.save(person);
         return PersonMapper.toDTO(savedPerson);
     }
+    public PersonDTOV2 createV2 (PersonDTOV2 personDTO) {
+        Person person = PersonMapperV2.toEntity(personDTO);
+        Person savedPerson = repository.save(person);
+        return PersonMapperV2.toDTOV2(savedPerson);
+    }
 
     public PersonDTO update (PersonDTO personDTO){
         Person person = repository.findById(personDTO.getId())
@@ -47,9 +54,6 @@ public class PersonServices {
         Person personUpdated = repository.save(person);
         return PersonMapper.toDTO(personUpdated);
     }
-
-
-
     public void delete(Long id) {
         Person person = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));

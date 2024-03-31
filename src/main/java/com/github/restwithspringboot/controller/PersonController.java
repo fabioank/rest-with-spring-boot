@@ -1,6 +1,7 @@
 package com.github.restwithspringboot.controller;
 
-import com.github.restwithspringboot.dtos.PersonDTO;
+import com.github.restwithspringboot.dto.PersonDTO;
+import com.github.restwithspringboot.dtov2.PersonDTOV2;
 import com.github.restwithspringboot.services.PersonServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +16,7 @@ import java.util.List;
 public class PersonController {
 
     @Autowired
-    private PersonServices services;
+    public PersonServices services;
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PersonDTO> findById(@PathVariable("id") Long id) {
@@ -32,6 +33,11 @@ public class PersonController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PersonDTO> create(@RequestBody PersonDTO person) {
         PersonDTO createdPerson = services.create(person);
+        return new ResponseEntity<>(createdPerson, HttpStatus.CREATED);
+    }
+    @PostMapping(value = "/v2",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PersonDTOV2> createV2(@RequestBody PersonDTOV2 person) {
+        PersonDTOV2 createdPerson = services.createV2(person);
         return new ResponseEntity<>(createdPerson, HttpStatus.CREATED);
     }
 
