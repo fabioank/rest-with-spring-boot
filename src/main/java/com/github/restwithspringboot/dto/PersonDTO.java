@@ -2,16 +2,17 @@ package com.github.restwithspringboot.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
 
 @JsonPropertyOrder({"id", "firstName", "lastName", "address", "gender"})
-public class PersonDTO implements Serializable {
+public class PersonDTO extends RepresentationModel<PersonDTO> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-
-    private Long id;
+    @JsonProperty("id")
+    private Long key;
     private String firstName;
     private String lastName;
     private String address;
@@ -19,20 +20,22 @@ public class PersonDTO implements Serializable {
 
     public PersonDTO(){}
 
-    public PersonDTO(Long id, String firstName, String lastName, String address, String gender) {
-        this.id = id;
+    public PersonDTO(Long key, String firstName, String lastName, String address, String gender) {
+        this.key = key;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.gender = gender;
     }
 
-    public Long getId() {
-        return id;
+    @JsonProperty("id")
+    public Long getKey() {
+        return key;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    @JsonProperty("id")
+    public void setKey(Long key) {
+        this.key = key;
     }
 
     public String getFirstName() {
