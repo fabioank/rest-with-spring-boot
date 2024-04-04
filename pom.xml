@@ -20,6 +20,7 @@
 	</properties>
 	<dependencies>
 
+<<<<<<< HEAD
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-boot-starter</artifactId>
@@ -32,6 +33,8 @@
 			<version>3.0.0</version>
 		</dependency>
 
+=======
+>>>>>>> 0a57b4b441af13694652ab33f71f8e1df22fca17
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>

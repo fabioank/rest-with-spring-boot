@@ -19,7 +19,10 @@ public class PersonController {
     @Autowired
     public PersonServices services;
 
+<<<<<<< HEAD
     @CrossOrigin(origins = "http://localhost:8080")
+=======
+>>>>>>> 0a57b4b441af13694652ab33f71f8e1df22fca17
     @GetMapping(value = "/{id}",
             produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,MediaType.APPLICATION_YAML})
     public ResponseEntity<PersonDTO> findById(@PathVariable("id") Long id) {
@@ -34,6 +37,7 @@ public class PersonController {
         return ResponseEntity.ok(people);
     }
 
+<<<<<<< HEAD
     @CrossOrigin(origins = {"http://localhost:8080", "https://erudio.com.br"})
     @PostMapping(
             consumes = MediaType.APPLICATION_JSON,
@@ -41,20 +45,40 @@ public class PersonController {
     public ResponseEntity<PersonDTO> create(@RequestBody PersonDTO Book) {
         PersonDTO createdBook = services.create(Book);
         return new ResponseEntity<>(createdBook, HttpStatus.CREATED);
+=======
+    @PostMapping(
+            consumes = MediaType.APPLICATION_JSON,
+            produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,MediaType.APPLICATION_YAML})
+    public ResponseEntity<PersonDTO> create(@RequestBody PersonDTO person) {
+        PersonDTO createdPerson = services.create(person);
+        return new ResponseEntity<>(createdPerson, HttpStatus.CREATED);
+>>>>>>> 0a57b4b441af13694652ab33f71f8e1df22fca17
     }
     @PostMapping(value = "/v2",
             consumes = MediaType.APPLICATION_JSON,
             produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YAML})
+<<<<<<< HEAD
     public ResponseEntity<PersonDTOV2> createV2(@RequestBody PersonDTOV2 Book) {
         PersonDTOV2 createdBook = services.createV2(Book);
         return new ResponseEntity<>(createdBook, HttpStatus.CREATED);
+=======
+    public ResponseEntity<PersonDTOV2> createV2(@RequestBody PersonDTOV2 person) {
+        PersonDTOV2 createdPerson = services.createV2(person);
+        return new ResponseEntity<>(createdPerson, HttpStatus.CREATED);
+>>>>>>> 0a57b4b441af13694652ab33f71f8e1df22fca17
     }
     @PutMapping(
             consumes = MediaType.APPLICATION_JSON,
             produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YAML})
+<<<<<<< HEAD
     public ResponseEntity<PersonDTO> update(@RequestBody PersonDTO Book) {
         PersonDTO updatedBook = services.update(Book);
         return ResponseEntity.ok(updatedBook);
+=======
+    public ResponseEntity<PersonDTO> update(@RequestBody PersonDTO person) {
+        PersonDTO updatedPerson = services.update(person);
+        return ResponseEntity.ok(updatedPerson);
+>>>>>>> 0a57b4b441af13694652ab33f71f8e1df22fca17
     }
 
     @DeleteMapping("{id}")
