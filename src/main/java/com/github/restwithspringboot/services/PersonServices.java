@@ -1,13 +1,15 @@
 package com.github.restwithspringboot.services;
 
+<<<<<<< HEAD
 import com.github.restwithspringboot.controller.PersonController;
 <<<<<<< HEAD
 
 =======
 >>>>>>> 0a57b4b441af13694652ab33f71f8e1df22fca17
+=======
+>>>>>>> parent of b114a0e (Implementado a entidade Book)
 import com.github.restwithspringboot.dto.PersonDTO;
 import com.github.restwithspringboot.dtov2.PersonDTOV2;
-import com.github.restwithspringboot.exceptions.RequiredObjectIsNull;
 import com.github.restwithspringboot.exceptions.ResourceNotFoundException;
 import com.github.restwithspringboot.mapper.PersonMapper;
 import com.github.restwithspringboot.mapper.PersonMapperV2;
@@ -15,11 +17,9 @@ import com.github.restwithspringboot.model.Person;
 import com.github.restwithspringboot.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PersonServices {
@@ -29,6 +29,7 @@ public class PersonServices {
 
     public List<PersonDTO> findAll() {
         List<Person> people = repository.findAll();
+<<<<<<< HEAD
 
 <<<<<<< HEAD
         List<PersonDTO> listBooks =  people.stream()
@@ -47,12 +48,17 @@ public class PersonServices {
 
         return listPersons;
 >>>>>>> 0a57b4b441af13694652ab33f71f8e1df22fca17
+=======
+        return people.stream()
+                .map(PersonMapper::toDTO)
+                .collect(Collectors.toList());
+>>>>>>> parent of b114a0e (Implementado a entidade Book)
     }
 
     public PersonDTO findById(Long id) {
-
-        Person Book = repository.findById(id)
+        Person person = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
+<<<<<<< HEAD
 <<<<<<< HEAD
         PersonDTO dto = PersonMapper.toDTO(Book);
 =======
@@ -78,13 +84,23 @@ public class PersonServices {
 >>>>>>> 0a57b4b441af13694652ab33f71f8e1df22fca17
         dto.add(linkTo(methodOn(PersonController.class).findById(dto.getKey())).withSelfRel());
         return dto;
-    }
-    public PersonDTOV2 createV2 (PersonDTOV2 BookDTO) {
-        Person Book = PersonMapperV2.toEntity(BookDTO);
-        Person savedBook = repository.save(Book);
-        return PersonMapperV2.toDTOV2(savedBook);
+=======
+        return PersonMapper.toDTO(person);
     }
 
+    public PersonDTO create (PersonDTO personDTO) {
+        Person person = PersonMapper.toEntity(personDTO);
+        Person savedPerson = repository.save(person);
+        return PersonMapper.toDTO(savedPerson);
+>>>>>>> parent of b114a0e (Implementado a entidade Book)
+    }
+    public PersonDTOV2 createV2 (PersonDTOV2 personDTO) {
+        Person person = PersonMapperV2.toEntity(personDTO);
+        Person savedPerson = repository.save(person);
+        return PersonMapperV2.toDTOV2(savedPerson);
+    }
+
+<<<<<<< HEAD
 <<<<<<< HEAD
     public PersonDTO update (PersonDTO BookDTO){
 
@@ -95,12 +111,17 @@ public class PersonServices {
     public PersonDTO update (PersonDTO personDTO){
         Person person = repository.findById(personDTO.getKey())
 >>>>>>> 0a57b4b441af13694652ab33f71f8e1df22fca17
+=======
+    public PersonDTO update (PersonDTO personDTO){
+        Person person = repository.findById(personDTO.getId())
+>>>>>>> parent of b114a0e (Implementado a entidade Book)
                 .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
-        Book.setFirstName(BookDTO.getFirstName());
-        Book.setLastName(BookDTO.getLastName());
-        Book.setAddress(BookDTO.getAddress());
-        Book.setGender(BookDTO.getGender());
+        person.setFirstName(personDTO.getFirstName());
+        person.setLastName(personDTO.getLastName());
+        person.setAddress(personDTO.getAddress());
+        person.setGender(personDTO.getGender());
 
+<<<<<<< HEAD
 <<<<<<< HEAD
         Person BookUpdated = repository.save(Book);
         PersonDTO dto = PersonMapper.toDTO(BookUpdated);
@@ -111,10 +132,14 @@ public class PersonServices {
 
         dto.add(linkTo(methodOn(PersonController.class).findById(dto.getKey())).withSelfRel());
         return dto;
+=======
+        Person personUpdated = repository.save(person);
+        return PersonMapper.toDTO(personUpdated);
+>>>>>>> parent of b114a0e (Implementado a entidade Book)
     }
     public void delete(Long id) {
-        Person Book = repository.findById(id)
+        Person person = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
-        repository.delete(Book);
+        repository.delete(person);
     }
 }

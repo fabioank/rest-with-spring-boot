@@ -1,18 +1,12 @@
 package com.github.restwithspringboot.config;
 
-import com.github.restwithspringboot.serialization.converter.YamlJackson2HttpMessageConverter;
-<<<<<<< HEAD
+
 import org.springframework.beans.factory.annotation.Value;
-=======
->>>>>>> 0a57b4b441af13694652ab33f71f8e1df22fca17
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
-<<<<<<< HEAD
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-=======
->>>>>>> 0a57b4b441af13694652ab33f71f8e1df22fca17
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
@@ -22,12 +16,11 @@ public class WebConfig implements WebMvcConfigurer {
 
     private static final MediaType MEDIA_TYPE_APPLICATION_YAML = MediaType.valueOf("application/x-yaml");
 
-<<<<<<< HEAD
+
     @Value("${cors.originPatterns:defaault}")
     private String corsOriginPatterns =  "";
 
-=======
->>>>>>> 0a57b4b441af13694652ab33f71f8e1df22fca17
+
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
         converters.add(new YamlJackson2HttpMessageConverter());

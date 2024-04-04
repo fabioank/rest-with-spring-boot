@@ -7,3 +7,5 @@ CREATE TABLE IF NOT EXISTS `tb_person` (
 
   PRIMARY KEY (`id`)
 );
+
+
