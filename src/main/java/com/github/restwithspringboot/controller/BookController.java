@@ -1,7 +1,9 @@
 package com.github.restwithspringboot.controller;
 
+import com.github.restwithspringboot.dto.BookDTO;
 import com.github.restwithspringboot.dto.PersonDTO;
 import com.github.restwithspringboot.dtov2.PersonDTOV2;
+import com.github.restwithspringboot.services.BookServices;
 import com.github.restwithspringboot.services.PersonServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,47 +15,40 @@ import java.util.List;
 
 //@CrossOrigin
 @RestController
-@RequestMapping("/api/person/v1")
-public class PersonController {
+@RequestMapping("/api/book/v1")
+public class BookController {
 
     @Autowired
-    public PersonServices services;
+    public BookServices services;
 
     @CrossOrigin(origins = "http://localhost:8080")
     @GetMapping(value = "/{id}",
             produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,MediaType.APPLICATION_YAML})
-    public ResponseEntity<PersonDTO> findById(@PathVariable("id") Long id) {
-        PersonDTO Book = services.findById(id);
-        return ResponseEntity.ok(Book);
+    public ResponseEntity<BookDTO> findById(@PathVariable("id") Long id) {
+        BookDTO book = services.findById(id);
+        return ResponseEntity.ok(book);
     }
 
     @GetMapping(
             produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YAML})
-    public ResponseEntity<List<PersonDTO>> findAll() {
-        List<PersonDTO> people = services.findAll();
-        return ResponseEntity.ok(people);
+    public ResponseEntity<List<BookDTO>> findAll() {
+        List<BookDTO> book= services.findAll();
+        return ResponseEntity.ok(book);
     }
 
     @CrossOrigin(origins = {"http://localhost:8080", "https://erudio.com.br"})
     @PostMapping(
             consumes = MediaType.APPLICATION_JSON,
             produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,MediaType.APPLICATION_YAML})
-    public ResponseEntity<PersonDTO> create(@RequestBody PersonDTO Book) {
-        PersonDTO createdBook = services.create(Book);
-        return new ResponseEntity<>(createdBook, HttpStatus.CREATED);
-    }
-    @PostMapping(value = "/v2",
-            consumes = MediaType.APPLICATION_JSON,
-            produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YAML})
-    public ResponseEntity<PersonDTOV2> createV2(@RequestBody PersonDTOV2 Book) {
-        PersonDTOV2 createdBook = services.createV2(Book);
+    public ResponseEntity<BookDTO> create(@RequestBody BookDTO book) {
+        BookDTO createdBook = services.create(book);
         return new ResponseEntity<>(createdBook, HttpStatus.CREATED);
     }
     @PutMapping(
             consumes = MediaType.APPLICATION_JSON,
             produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YAML})
-    public ResponseEntity<PersonDTO> update(@RequestBody PersonDTO Book) {
-        PersonDTO updatedBook = services.update(Book);
+    public ResponseEntity<BookDTO> update(@RequestBody BookDTO book) {
+        BookDTO updatedBook = services.update(book);
         return ResponseEntity.ok(updatedBook);
     }
 

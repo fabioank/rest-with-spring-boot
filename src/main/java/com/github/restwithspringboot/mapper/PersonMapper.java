@@ -5,23 +5,23 @@ import com.github.restwithspringboot.model.Person;
 
 public class PersonMapper {
 
-    public static PersonDTO toDTO(Person person) {
+    public static PersonDTO toDTO(Person Book) {
         PersonDTO dto = new PersonDTO();
-        dto.setId(person.getId());
-        dto.setFirstName(person.getFirstName());
-        dto.setLastName(person.getLastName());
-        dto.setAddress(person.getAddress());
-        dto.setGender(person.getGender());
+        dto.setKey(Book.getId());
+        dto.setFirstName(Book.getFirstName());
+        dto.setLastName(Book.getLastName());
+        dto.setAddress(Book.getAddress());
+        dto.setGender(Book.getGender());
         return dto;
     }
 
     public static Person toEntity(PersonDTO dto) {
-        Person person = new Person();
-        person.setId(dto.getId());
-        person.setFirstName(dto.getFirstName());
-        person.setLastName(dto.getLastName());
-        person.setAddress(dto.getAddress());
-        person.setGender(dto.getGender());
-        return person;
+        Person Book = new Person();
+        Book.setId(dto.getKey());
+        Book.setFirstName(dto.getFirstName());
+        Book.setLastName(dto.getLastName());
+        Book.setAddress(dto.getAddress());
+        Book.setGender(dto.getGender());
+        return Book;
     }
 }

@@ -1,7 +1,10 @@
 package com.github.restwithspringboot.services;
 
+import com.github.restwithspringboot.controller.PersonController;
+
 import com.github.restwithspringboot.dto.PersonDTO;
 import com.github.restwithspringboot.dtov2.PersonDTOV2;
+import com.github.restwithspringboot.exceptions.RequiredObjectIsNull;
 import com.github.restwithspringboot.exceptions.ResourceNotFoundException;
 import com.github.restwithspringboot.mapper.PersonMapper;
 import com.github.restwithspringboot.mapper.PersonMapperV2;
@@ -9,9 +12,11 @@ import com.github.restwithspringboot.model.Person;
 import com.github.restwithspringboot.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PersonServices {
@@ -21,42 +26,61 @@ public class PersonServices {
 
     public List<PersonDTO> findAll() {
         List<Person> people = repository.findAll();
-        return people.stream()
+
+        List<PersonDTO> listBooks =  people.stream()
                 .map(PersonMapper::toDTO)
-                .collect(Collectors.toList());
+                .toList();
+
+        listBooks.stream().forEach(p -> p.add(linkTo(methodOn(PersonController.class).findById(p.getKey())).withSelfRel()));
+
+        return listBooks;
     }
 
     public PersonDTO findById(Long id) {
-        Person person = repository.findById(id)
+
+        Person Book = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
-        return PersonMapper.toDTO(person);
+        PersonDTO dto = PersonMapper.toDTO(Book);
+        dto.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
+        return dto;
     }
 
-    public PersonDTO create (PersonDTO personDTO) {
-        Person person = PersonMapper.toEntity(personDTO);
-        Person savedPerson = repository.save(person);
-        return PersonMapper.toDTO(savedPerson);
+    public PersonDTO create (PersonDTO BookDTO) {
+
+        if(BookDTO == null) throw new RequiredObjectIsNull();
+
+        Person Book = PersonMapper.toEntity(BookDTO);
+        Person savedBook = repository.save(Book);
+        PersonDTO dto = PersonMapper.toDTO(savedBook);
+        dto.add(linkTo(methodOn(PersonController.class).findById(dto.getKey())).withSelfRel());
+        return dto;
     }
-    public PersonDTOV2 createV2 (PersonDTOV2 personDTO) {
-        Person person = PersonMapperV2.toEntity(personDTO);
-        Person savedPerson = repository.save(person);
-        return PersonMapperV2.toDTOV2(savedPerson);
+    public PersonDTOV2 createV2 (PersonDTOV2 BookDTO) {
+        Person Book = PersonMapperV2.toEntity(BookDTO);
+        Person savedBook = repository.save(Book);
+        return PersonMapperV2.toDTOV2(savedBook);
     }
 
-    public PersonDTO update (PersonDTO personDTO){
-        Person person = repository.findById(personDTO.getId())
+    public PersonDTO update (PersonDTO BookDTO){
+
+        if(BookDTO == null) throw new RequiredObjectIsNull();
+
+        Person Book = repository.findById(BookDTO.getKey())
                 .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
-        person.setFirstName(personDTO.getFirstName());
-        person.setLastName(personDTO.getLastName());
-        person.setAddress(personDTO.getAddress());
-        person.setGender(personDTO.getGender());
+        Book.setFirstName(BookDTO.getFirstName());
+        Book.setLastName(BookDTO.getLastName());
+        Book.setAddress(BookDTO.getAddress());
+        Book.setGender(BookDTO.getGender());
 
-        Person personUpdated = repository.save(person);
-        return PersonMapper.toDTO(personUpdated);
+        Person BookUpdated = repository.save(Book);
+        PersonDTO dto = PersonMapper.toDTO(BookUpdated);
+
+        dto.add(linkTo(methodOn(PersonController.class).findById(dto.getKey())).withSelfRel());
+        return dto;
     }
     public void delete(Long id) {
-        Person person = repository.findById(id)
+        Person Book = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
-        repository.delete(person);
+        repository.delete(Book);
     }
 }
